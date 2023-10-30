@@ -1,0 +1,64 @@
+package com.zerobase.dividends.service;
+
+import com.zerobase.dividends.model.CompanyDto;
+import com.zerobase.dividends.model.ScrapedResult;
+import com.zerobase.dividends.persist.CompanyRepository;
+import com.zerobase.dividends.persist.DividendRepository;
+import com.zerobase.dividends.persist.entity.CompanyEntity;
+import com.zerobase.dividends.persist.entity.DividendEntity;
+import com.zerobase.dividends.scrapper.Scraper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CompanyService {
+    private final CompanyRepository companyRepository;
+    private final DividendRepository dividendRepository;
+    private final Scraper yahooFinanceScraper;
+
+    public CompanyDto save(String ticker) {
+        boolean exists = companyRepository.existsByTicker(ticker);
+        if(exists) {
+            throw new RuntimeException("already exists ticker -> " + ticker);
+        }
+
+        return storeCompanyAndDividend(ticker);
+    }
+
+    private CompanyDto storeCompanyAndDividend(String ticker) {
+        // ticker 를 기준으로 회사를 스크래핑
+        CompanyDto companyDto = yahooFinanceScraper.scrapCompanyByTicker(ticker);
+        if (ObjectUtils.isEmpty(companyDto)) {
+            throw new RuntimeException("failed to scrap ticker -> " + ticker);
+        }
+
+        // 해당 회사가 존재할 경우, 회사 배당금 정보를 스크래핑 한다.
+        ScrapedResult result = yahooFinanceScraper.scrap(companyDto);
+
+        // 스크래핑 결과
+        CompanyEntity companyEntity = companyRepository.save(CompanyEntity.builder()
+                        .ticker(companyDto.getTicker())
+                        .name(companyDto.getName())
+                        .build());
+
+        System.out.println("companyEntity.getId : " + companyEntity.getId());
+        System.out.println("result.getDividends size : " + result.getDividends().size());
+
+        List<DividendEntity> dividendEntityList = result.getDividends().stream()
+                .map(e -> DividendEntity.builder()
+                        .companyId(companyEntity.getId())
+                        .date(e.getDate())
+                        .dividend(e.getDevidend())
+                        .build())
+                .collect(Collectors.toList());
+
+        this.dividendRepository.saveAll(dividendEntityList);
+
+        return companyDto;
+    }
+}

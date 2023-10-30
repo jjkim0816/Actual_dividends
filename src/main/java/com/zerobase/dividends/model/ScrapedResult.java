@@ -1,12 +1,12 @@
 package com.zerobase.dividends.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,9 +14,9 @@ import lombok.Setter;
 @Builder
 public class ScrapedResult {
 	private CompanyDto company;
-	private List<DividendDto> dividendEntities;
+	private List<DividendDto> dividends;
 
 	public ScrapedResult() {
-		this.dividendEntities = new ArrayList<>();
+		this.dividends = new ArrayList<>();
 	}
 }
