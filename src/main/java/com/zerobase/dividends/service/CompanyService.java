@@ -8,6 +8,8 @@ import com.zerobase.dividends.persist.entity.CompanyEntity;
 import com.zerobase.dividends.persist.entity.DividendEntity;
 import com.zerobase.dividends.scrapper.Scraper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -60,5 +62,9 @@ public class CompanyService {
         this.dividendRepository.saveAll(dividendEntityList);
 
         return companyDto;
+    }
+
+    public Page<CompanyEntity> findAllCompany(Pageable pageable) {
+        return this.companyRepository.findAll(pageable);
     }
 }
