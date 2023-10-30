@@ -12,5 +12,5 @@ import java.time.LocalDateTime;
 @ToString
 public class DividendDto {
 	private LocalDateTime date;
-	private String devidend;
+	private String dividend;
 }

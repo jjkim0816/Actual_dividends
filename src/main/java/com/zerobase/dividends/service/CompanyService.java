@@ -55,7 +55,7 @@ public class CompanyService {
                 .map(e -> DividendEntity.builder()
                         .companyId(companyEntity.getId())
                         .date(e.getDate())
-                        .dividend(e.getDevidend())
+                        .dividend(e.getDividend())
                         .build())
                 .collect(Collectors.toList());
 

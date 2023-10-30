@@ -5,7 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.zerobase.dividends.persist.entity.CompanyEntity;
 
+import java.util.Optional;
+
 @Repository
 public interface CompanyRepository extends JpaRepository<CompanyEntity, Long>{
     boolean existsByTicker(String ticker);
+
+    Optional<CompanyEntity> findByName(String companyName);
 }
