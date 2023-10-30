@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/company")
 @RequiredArgsConstructor
@@ -17,10 +19,12 @@ public class CompanyController {
 	private final CompanyService companyService;
 
 	@GetMapping("/auto-complete")
-	public ResponseEntity<?> autoComplete(
+	public ResponseEntity<List<String>> autoComplete(
 		@RequestParam(name = "keyword") String keyword
 	) {
-		return null;
+//		List<String> result = this.companyService.autocomplete(keyword);
+		List<String> result = this.companyService.getCompanyNamesByKeyword(keyword);
+		return ResponseEntity.ok(result);
 	}
 	
 	@GetMapping
@@ -39,7 +43,9 @@ public class CompanyController {
 		if(ObjectUtils.isEmpty(ticker)) {
 			throw new RuntimeException("ticker is empty");
 		}
+
 		CompanyDto companyDto = this.companyService.save(ticker);
+		this.companyService.addAutocompleteKeyword(companyDto.getName());
 		return ResponseEntity.ok(companyDto);
 	}
 
