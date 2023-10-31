@@ -11,6 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity(name = "DIVIDEND")
 @Builder
+@Table(
+		uniqueConstraints = {
+				@UniqueConstraint(
+						columnNames = {"companyId", "date"}
+				)
+		}
+)
 public class DividendEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
