@@ -46,13 +46,11 @@ public class CompanyService {
         ScrapedResult result = yahooFinanceScraper.scrap(companyDto);
 
         // 스크래핑 결과
-        CompanyEntity companyEntity = companyRepository.save(CompanyEntity.builder()
+        CompanyEntity companyEntity = companyRepository.save(CompanyEntity
+                        .builder()
                         .ticker(companyDto.getTicker())
                         .name(companyDto.getName())
                         .build());
-
-        System.out.println("companyEntity.getId : " + companyEntity.getId());
-        System.out.println("result.getDividends size : " + result.getDividends().size());
 
         List<DividendEntity> dividendEntityList = result.getDividends().stream()
                 .map(e -> DividendEntity.builder()
@@ -69,8 +67,10 @@ public class CompanyService {
 
     public List<String> getCompanyNamesByKeyword(String keyword) {
         Pageable limit = PageRequest.of(0, 10);
-        Page<CompanyEntity> companies = this.companyRepository.findByNameStartingWithIgnoreCase(keyword, limit);
-        return companies.stream().map(CompanyEntity::getName).collect(Collectors.toList());
+        Page<CompanyEntity> companies = this.companyRepository
+                .findByNameStartingWithIgnoreCase(keyword, limit);
+        return companies.stream().map(CompanyEntity::getName)
+                .collect(Collectors.toList());
     }
 
     public Page<CompanyEntity> findAllCompany(Pageable pageable) {

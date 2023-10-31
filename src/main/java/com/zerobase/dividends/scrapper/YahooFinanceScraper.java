@@ -29,11 +29,14 @@ public class YahooFinanceScraper implements Scraper {
         long endTime = System.currentTimeMillis() / 1000;
 
         try {
-            String url = String.format(STATISTICS_URL, company.getTicker(), START_TIME, endTime);
+            String url = String.format(STATISTICS_URL, company.getTicker()
+                    , START_TIME, endTime);
             Connection conn = Jsoup.connect(url);
             Document document = conn.get();
 
-            Elements parsingDivs = document.getElementsByAttributeValue("data-test", "historical-prices");
+            Elements parsingDivs = document.getElementsByAttributeValue(
+                "data-test", "historical-prices"
+            );
             Element tableEle = parsingDivs.get(0); // table 전체
 
             Element tbody = tableEle.children().get(1);
@@ -47,20 +50,21 @@ public class YahooFinanceScraper implements Scraper {
 
                 String[] splits = txt.split(" ");
                 int month = Month.strToNumber(splits[0]);
-                int day = Integer.parseInt(splits[1].replace(",", ""));
+                int day = Integer.parseInt(splits[1]
+                        .replace(",", ""));
                 int year = Integer.parseInt(splits[2]);
                 String dividend = splits[3];
 
                 if (month < 0) {
-                    throw new RuntimeException("Unexpected Month enum value -> " + splits[0]);
+                    throw new RuntimeException(
+                        "Unexpected Month enum value -> " + splits[0]
+                    );
                 }
 
-//				System.out.println(year + "/" + month + "/" + day + " -> " + dividend);
-
                 dividends.add(DividendDto.builder()
-                        .date(LocalDateTime.of(year, month, day, 0, 0))
-                        .dividend(dividend)
-                        .build());
+                    .date(LocalDateTime.of(year, month, day, 0, 0))
+                    .dividend(dividend)
+                    .build());
 
             }
 

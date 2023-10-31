@@ -23,7 +23,9 @@ public class CompanyController {
 		@RequestParam(name = "keyword") String keyword
 	) {
 //		List<String> result = this.companyService.autocomplete(keyword);
-		List<String> result = this.companyService.getCompanyNamesByKeyword(keyword);
+		List<String> result = this.companyService.getCompanyNamesByKeyword(
+			keyword
+		);
 		return ResponseEntity.ok(result);
 	}
 	
