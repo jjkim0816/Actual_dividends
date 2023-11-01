@@ -3,6 +3,7 @@ package com.zerobase.dividends.service;
 import com.zerobase.dividends.model.CompanyDto;
 import com.zerobase.dividends.model.DividendDto;
 import com.zerobase.dividends.model.ScrapedResult;
+import com.zerobase.dividends.model.constants.CacheKey;
 import com.zerobase.dividends.persist.CompanyRepository;
 import com.zerobase.dividends.persist.DividendRepository;
 import com.zerobase.dividends.persist.entity.CompanyEntity;
@@ -22,7 +23,7 @@ public class FinanceService {
 
     // 요청이 자주 들어오는가?
     // 자주 변경되는 데이터 인가?
-    @Cacheable(key = "#companyName", value = "finance")
+    @Cacheable(key = "#companyName", value = CacheKey.KEY_FINANCE)
     public ScrapedResult findDividendByCompanyName(String companyName) {
         // 1. 회사명을 기준으로 회사 정보를 조회
         CompanyEntity company = this.companyRepository.findByName(companyName)
