@@ -44,7 +44,7 @@ public class MemberService implements UserDetailsService {
         MemberEntity user = this.memberRepository.findByUsername(signIn.getUsername())
             .orElseThrow(() -> new RuntimeException("존재하지 않은 유저 입니다."));
 
-        if (this.passwordEncoder.matches(signIn.getPassword(), user.getPassword())) {
+        if (this.passwordEncoder.matches(user.getPassword(), signIn.getPassword())) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
 
