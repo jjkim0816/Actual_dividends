@@ -89,7 +89,7 @@ public class TokenProvider {
     }
 
     /**
-     * 인증 정보를 넣어주기 위한 메소드
+     * SecurityContextHolder 클래스에 인증 정보를 넣어주기 위한 메소드
      * @param jwt 문자열 데이터
      * @return Authentication class
      */
