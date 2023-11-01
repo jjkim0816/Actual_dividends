@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  redis-server1:
+    image: redis:5.0.12-alpine3.13
+    container_name: dividend-redis1
+    restart: always
+    ports:
+      - "16379:6379"
+
+  redis-server2:
+    image: redis:5.0.12-alpine3.13
+    container_name: dividend-redis2
+    restart: always
+    ports:
+      - "26379:6379"
+
+  redis-server3:
+    image: redis:5.0.12-alpine3.13
+    container_name: dividend-redis3
+    restart: always
+    ports:
+      - "36379:6379"
