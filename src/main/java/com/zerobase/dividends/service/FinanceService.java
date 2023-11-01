@@ -8,6 +8,7 @@ import com.zerobase.dividends.persist.DividendRepository;
 import com.zerobase.dividends.persist.entity.CompanyEntity;
 import com.zerobase.dividends.persist.entity.DividendEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class FinanceService {
     private final CompanyRepository companyRepository;
     private final DividendRepository dividendRepository;
 
+    // 요청이 자주 들어오는가?
+    // 자주 변경되는 데이터 인가?
+    @Cacheable(key = "#companyName", value = "finance")
     public ScrapedResult findDividendByCompanyName(String companyName) {
         // 1. 회사명을 기준으로 회사 정보를 조회
         CompanyEntity company = this.companyRepository.findByName(companyName)
