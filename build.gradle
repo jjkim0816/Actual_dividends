@@ -24,11 +24,12 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	implementation 'org.jsoup:jsoup:1.16.2'
 	implementation 'org.apache.commons:commons-collections4:4.3' // trie 자료구조 라이브러리
+	implementation 'io.jsonwebtoken:jjwt:0.9.1' // jwt
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
