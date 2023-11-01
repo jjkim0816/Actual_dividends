@@ -1,5 +1,6 @@
 package com.zerobase.dividends.service;
 
+import com.zerobase.dividends.exception.impl.AlreadyExistUserException;
 import com.zerobase.dividends.model.AuthDto;
 import com.zerobase.dividends.persist.MemberRepository;
 import com.zerobase.dividends.persist.entity.MemberEntity;
@@ -27,7 +28,7 @@ public class MemberService implements UserDetailsService {
     public MemberEntity register(AuthDto.SignUp signUp) {
         boolean exist = this.memberRepository.existsByUsername(signUp.getUsername());
         if (exist) {
-            throw new RuntimeException("이미 사용 중인 아이디 입니다.");
+            throw new AlreadyExistUserException();
         }
 
         signUp.setPassword(this.passwordEncoder.encode(signUp.getPassword()));

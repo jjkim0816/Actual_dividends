@@ -1,5 +1,6 @@
 package com.zerobase.dividends.service;
 
+import com.zerobase.dividends.exception.impl.NoCompanyException;
 import com.zerobase.dividends.model.CompanyDto;
 import com.zerobase.dividends.model.DividendDto;
 import com.zerobase.dividends.model.ScrapedResult;
@@ -27,7 +28,7 @@ public class FinanceService {
     public ScrapedResult findDividendByCompanyName(String companyName) {
         // 1. 회사명을 기준으로 회사 정보를 조회
         CompanyEntity company = this.companyRepository.findByName(companyName)
-            .orElseThrow(() -> new RuntimeException("company is not exist"));
+            .orElseThrow(NoCompanyException::new);
 
         // 2. 조회 된 회사 ID로 배당금을 조회 한다.
         List<DividendEntity> dividendEntities = this.dividendRepository
