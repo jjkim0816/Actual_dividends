@@ -35,6 +35,11 @@ public class MemberService implements UserDetailsService {
         return this.memberRepository.save(signUp.toEntity());
     }
 
+    /**
+     * 로그인 시 로그인 정보 검증 메서드
+     * @param signIn 요청 로그인 데이터
+     * @return MemberEntity
+     */
     public MemberEntity authenticate(AuthDto.SignIn signIn) {
         MemberEntity user = this.memberRepository.findByUsername(signIn.getUsername())
             .orElseThrow(() -> new RuntimeException("존재하지 않은 유저 입니다."));

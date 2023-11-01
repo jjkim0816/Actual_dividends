@@ -32,7 +32,8 @@ public class AuthController {
         @RequestBody AuthDto.SignIn request
     ) {
         MemberEntity member = this.memberService.authenticate(request);
-        String token = this.tokenProvider.generateToken(member.getUsername(), member.getRoles());
+        String token = this.tokenProvider.generateToken(
+            member.getUsername(), member.getRoles());
         return ResponseEntity.ok(token);
     }
 }
