@@ -30,6 +30,7 @@ public class CacheConfig {
                 .fromSerializer(new StringRedisSerializer()))
             .serializeValuesWith(RedisSerializationContext.SerializationPair
                 .fromSerializer(new GenericJackson2JsonRedisSerializer()))
+//            .entryTtl(Duration.of()) // redis 전체 ttl 설정 - 특정키만 ttl 설정은 구글링 필요
             ;
 
         return RedisCacheManager.RedisCacheManagerBuilder
